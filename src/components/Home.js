@@ -8,15 +8,18 @@ const Home = (props) => {
     const [cities, setCities] = useState('');
     const [card, setCard] = useState('');
     const [salary, setSalary] = useState('');
+    const [initVal, setinitVal] = useState({});
     const getCardVal = (val) => {
         setCard(val);
         let cities = props.creditDetailsList.filter((data, i) => data.card === val);
         setCities(cities);
+        setinitVal({});
+        setSalary('')
     }
     const getCityVal = (val) => {
         let salary = props.creditDetailsList.find((data, i) => data.city === val && data.card === card);
-        if (salary) { setSalary(salary.salary); }
-        else { setSalary(''); }
+        if (salary) { setSalary(salary.salary);setinitVal(salary) }
+        else { setSalary('');setinitVal({}) }
     }
     const showCards = () => {
         const arr = [];
@@ -25,7 +28,7 @@ const Home = (props) => {
     }
     return (
         <div className="container w-50">
-            <CreditForm />
+            
             <div className="text-left">
                 <Form.Group controlId="exampleForm.ControlSelect1">
                     <Form.Label>Select Credit Card</Form.Label>
@@ -46,6 +49,7 @@ const Home = (props) => {
                     <Form.Control type="text" disabled value={salary} />
                 </Form.Group>
             </div>
+            <CreditForm initialValues={initVal}/>
         </div>
     );
 };
